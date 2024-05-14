@@ -1,5 +1,74 @@
-@media screen and (max-width: 800px) and (max-height: 480px) {
-    body {
-      background-color: blue;
+/* Generel styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Lys grå baggrund for kontrast */
+  }
+  
+  /* Container styling */
+  #app {
+    width: 100%;
+    max-width: 800px;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: white; /* Hvid baggrund for læsbarhed */
+    border-radius: 8px; /* Runde hjørner for et moderne look */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Blød skygge for dybde */
+  }
+  
+  /* Medieforespørgsel for skærme op til 480px i højde */
+  @media (max-height: 480px) {
+    #app {
+      padding: 5px;
+    }
+  
+    h2 {
+      font-size: 1.2em;
+    }
+  
+    button {
+      font-size: 0.9em;
+      padding: 8px;
     }
   }
+  
+  /* Medieforespørgsel for skærme op til 800px i bredde */
+  @media (max-width: 800px) {
+    #app {
+      padding: 5px;
+    }
+  
+    h2 {
+      font-size: 1.2em;
+    }
+  
+    button {
+      font-size: 0.9em;
+      padding: 8px;
+    }
+  }
+  
+  /* Yderligere styling for knapper */
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #007BFF; /* Blå baggrund */
+    color: white; /* Hvid tekst */
+    border: none; /* Ingen kant */
+    border-radius: 5px; /* Runde hjørner */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Let skygge */
+    transition: background-color 0.3s ease; /* Blød overgang for baggrundsfarve */
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Mørkere blå ved hover */
+  }
+  
