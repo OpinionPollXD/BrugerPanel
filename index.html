@@ -19,12 +19,12 @@
           </div>
     
         <!-- Questions List -->
-        <div v-if="selectedLanguage !== null && !answered && currentQuestion">
-            <h2>Spørgsmål</h2>
-            <h3>{{ currentQuestion.questionText }}</h3>
-            <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
-            <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
-            <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
+        <div v-if="selectedLanguage !== null && currentQuestion">
+          <h2>Spørgsmål</h2>
+          <h3>{{ currentQuestion.questionText }}</h3>
+          <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
+          <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
+          <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
         </div>
 
         <!-- Selected Question Section -->
