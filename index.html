@@ -19,26 +19,27 @@
           </div>
     
         <!-- Questions List -->
-        <div v-if="selectedLanguage !== null && !answered && !selectedQuestion">
+        <div v-if="selectedLanguage !== null && !answered && currentQuestion">
             <h2>Spørgsmål</h2>
-            <h3>{{ getRandomQuestion().questionText }}</h3>
-            <button @click="submitAnswer(1)">{{ getRandomQuestion().option1 }}</button>
-            <button @click="submitAnswer(2)">{{ getRandomQuestion().option2 }}</button>
-            <button @click="submitAnswer(3)">{{ getRandomQuestion().option3 }}</button>
+            <h3>{{ currentQuestion.questionText }}</h3>
+            <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
+            <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
+            <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
         </div>
 
         <!-- Selected Question Section -->
-        <div v-else-if="!answered && selectedQuestion">
+        <!-- <div v-else-if="!answered && selectedQuestion">
           <h2>{{ selectedQuestion.QuestionText }}</h2>
           <button @click="submitAnswer(1)">{{ selectedQuestion.Option1 }}</button>
           <button @click="submitAnswer(2)">{{ selectedQuestion.Option2 }}</button>
           <button @click="submitAnswer(3)">{{ selectedQuestion.Option3 }}</button>
-        </div>
+        </div> -->
     
         <!-- Statistics Section -->
-        <div v-else-if="answered">
+        <!-- <div v-else-if="answered"> -->
+            <!-- <h2>Tak for svar!</h2> -->
           <!-- Statistikkerne vises som før -->
-        </div>
+        <!-- </div> -->
       </div>
   <script src="/Javascript/index.js"></script>
 </body>
