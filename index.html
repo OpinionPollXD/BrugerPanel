@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="/CSS/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <div id="app">
@@ -18,28 +20,27 @@
             </button>
           </div>
     
-        <!-- Questions List -->
-        <div v-if="selectedLanguage !== null && currentQuestion">
+        <!-- Questions View -->
+        <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'">
           <h2>Spørgsmål</h2>
           <h3>{{ currentQuestion.questionText }}</h3>
+          <p>Tid tilbage: {{ remainingTime }} sekunder</p>
           <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
           <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
           <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
         </div>
 
-        <!-- Selected Question Section -->
-        <!-- <div v-else-if="!answered && selectedQuestion">
-          <h2>{{ selectedQuestion.QuestionText }}</h2>
-          <button @click="submitAnswer(1)">{{ selectedQuestion.Option1 }}</button>
-          <button @click="submitAnswer(2)">{{ selectedQuestion.Option2 }}</button>
-          <button @click="submitAnswer(3)">{{ selectedQuestion.Option3 }}</button>
-        </div> -->
-    
-        <!-- Statistics Section -->
-        <!-- <div v-else-if="answered"> -->
-            <!-- <h2>Tak for svar!</h2> -->
-          <!-- Statistikkerne vises som før -->
-        <!-- </div> -->
+        <!-- Statistics View -->
+        <div v-if="selectedLanguage !== null && viewState === 'statistics'">
+          <h2>Statistik for spørgsmål</h2>
+          <div class="bar-container">
+            <div class="bar" v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index" :style="{ width: getPercentage(index + 1) + '%' }">
+              {{ option }}: {{ getPercentage(index + 1) }}%
+            </div>
+        </div>
+        <button @click="loadNextQuestion()">Næste spørgsmål</button>
+      </div>
+
       </div>
   <script src="/Javascript/index.js"></script>
 </body>

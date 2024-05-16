@@ -53,6 +53,21 @@ body {
       padding: 8px;
     }
   }
+
+  .bar-container {
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+}
+
+.bar {
+    background-color: #007bff;
+    color: white;
+    text-align: right;
+    padding-right: 10px; /* Til teksten indeni baren */
+    height: 30px; /* Højden på søjlen */
+    line-height: 30px; /* Centrerer teksten vertikalt */
+}
   
   /* Yderligere styling for knapper */
   button {
