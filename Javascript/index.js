@@ -1,14 +1,15 @@
-const baseURL = 'https://restopinionpoll.azurewebsites.net/api/Questions';
+const baseURL = "https://restopinionpoll.azurewebsites.net/api/Questions";
 
 new Vue({
-  el: '#app',
+  el: "#app",
   data: {
     selectedLanguage: null,
-    languageOptions: ['Dansk', 'English', 'Français'],
+    languageOptions: ["Dansk", "English", "Français"],
     questions: [],
+    currentQuestion: null,
     selectedQuestion: null,
     answered: false,
-    stats: []
+    stats: [],
   },
   methods: {
     setLanguage(languageIndex) {
@@ -16,53 +17,69 @@ new Vue({
       this.selectedLanguage = languageIndex;
       this.fetchQuestions();
     },
-    getRandomQuestion() {
-        // Hvis der er spørgsmål, så vælg et tilfældigt spørgsmål
-        if (this.questions.length > 0) {
-          // Vælg et tilfældigt spørgsmål
-          const randomIndex = Math.floor(Math.random() * this.questions.length);
-          // Returner hele spørgsmålsobjektet
-          return this.questions[randomIndex];
-        }
-        return null;
-      },
-    
+
     fetchQuestions() {
-      // Hent spørgsmål uden hensyntagen til valgt sprog for øjeblikket
-      axios.get(baseURL)
-        .then(response => {
+      axios
+        .get(baseURL)
+        .then((response) => {
           this.questions = response.data;
-          console.log(this.questions);
+          this.getRandomQuestion();
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching questions:", error);
         });
     },
-    selectQuestion(question) {
-      this.selectedQuestion = question;
+
+    getRandomQuestion() {
+      if (this.questions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * this.questions.length);
+        this.currentQuestion = this.questions[randomIndex];
+      } else {
+        console.error("ingen spørgsmål fundet");
+      }
     },
+
     submitAnswer(option) {
-        const question = this.getRandomQuestion();
-        axios.post('https://restopinionpoll.azurewebsites.net/api/SubmitAnswer', {
-          questionId: question.questionId,
-          option: option
+      const question = this.currentQuestion;
+      console.log("Submitting answer for question:", this.currentQuestion);
+      axios
+        .post(
+          `${baseURL}/SubmitAnswer`,
+          {
+            QuestionId: this.currentQuestion.questionId,
+            Option: option,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Answer submitted successfully:", response.data);
+          this.getRandomQuestion();
         })
-        .then(response => {
-          this.fetchStatistics();
-          this.answered = true;
-        })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error submitting the answer:", error);
         });
-      },
-    fetchStatistics() {
-      axios.get(`https://restopinionpoll.azurewebsites.net/api/Statistics?questionId=${this.selectedQuestion.id}`)
-        .then(response => {
+    },
+
+    /*     fetchStatistics() {
+      axios
+        .get(
+          `https://restopinionpoll.azurewebsites.net/api/Statistics?questionId=${questionId}`
+        )
+        .then((response) => {
           this.stats = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching the statistics:", error);
         });
-    }
-  }
+    }, */
+  },
+  watch: {
+    selectedLanguage: function () {
+      this.getRandomQuestion();
+    },
+  },
 });

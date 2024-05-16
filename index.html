@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vue School Project</title>
+  <title>Bruger Panel</title>
   <link rel="stylesheet" href="/CSS/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -19,29 +19,27 @@
           </div>
     
         <!-- Questions List -->
-    
-
-        <div v-if="selectedLanguage !== null && !answered && !selectedQuestion">
-            <h2>Spørgsmål</h2>
-            <h3>{{ getRandomQuestion().questionText }}</h3>
-            <button @click="submitAnswer(1)">{{ getRandomQuestion().option1 }}</button>
-            <button @click="submitAnswer(2)">{{ getRandomQuestion().option2 }}</button>
-            <button @click="submitAnswer(3)">{{ getRandomQuestion().option3 }}</button>
+        <div v-if="selectedLanguage !== null && currentQuestion">
+          <h2>Spørgsmål</h2>
+          <h3>{{ currentQuestion.questionText }}</h3>
+          <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
+          <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
+          <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
         </div>
 
-    
         <!-- Selected Question Section -->
-        <div v-else-if="!answered && selectedQuestion">
-          <h2>{{ selectedQuestion.text }}</h2>
-          <button v-for="answer in selectedQuestion.answers" :key="answer.id" @click="submitAnswer(answer.id)">
-            {{ answer.text }}
-          </button>
-        </div>
+        <!-- <div v-else-if="!answered && selectedQuestion">
+          <h2>{{ selectedQuestion.QuestionText }}</h2>
+          <button @click="submitAnswer(1)">{{ selectedQuestion.Option1 }}</button>
+          <button @click="submitAnswer(2)">{{ selectedQuestion.Option2 }}</button>
+          <button @click="submitAnswer(3)">{{ selectedQuestion.Option3 }}</button>
+        </div> -->
     
         <!-- Statistics Section -->
-        <div v-else-if="answered">
+        <!-- <div v-else-if="answered"> -->
+            <!-- <h2>Tak for svar!</h2> -->
           <!-- Statistikkerne vises som før -->
-        </div>
+        <!-- </div> -->
       </div>
   <script src="/Javascript/index.js"></script>
 </body>
