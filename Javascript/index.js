@@ -58,7 +58,7 @@ new Vue({
 
     fetchQuestions() {
       axios
-        .get(baseURL)
+        .get(`${baseURL}/GetActiveQuestions`)
         .then((response) => {
           this.questions = response.data;
           this.getRandomQuestion();
