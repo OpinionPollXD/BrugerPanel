@@ -25,21 +25,24 @@
           <h2>Spørgsmål</h2>
           <h3>{{ currentQuestion.questionText }}</h3>
           <p>Tid tilbage: {{ remainingTime }} sekunder</p>
-          <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
-          <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
-          <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
+          <div class="submit-buttons button-container">
+            <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
+            <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
+            <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
+        </div>
         </div>
 
         <!-- Statistics View -->
         <div v-if="selectedLanguage !== null && viewState === 'statistics'">
           <h2>Statistik for spørgsmål</h2>
           <div class="bar-container">
-            <div class="bar" v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index" :style="{ width: getPercentage(index + 1) + '%' }">
-              {{ option }}: {{ getPercentage(index + 1) }}%
-            </div>
+              <div class="bar" v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index" :style="{ height: getPercentage(index + 1) + '%' }">
+                  {{ option }}: {{ getPercentage(index + 1) }}%
+              </div>
+          </div>
+          <button @click="loadNextQuestion()">Næste spørgsmål</button>
         </div>
-        <button @click="loadNextQuestion()">Næste spørgsmål</button>
-      </div>
+      
 
       </div>
   <script src="/Javascript/index.js"></script>

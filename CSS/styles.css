@@ -1,89 +1,87 @@
-/* Generel styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0; /* Lys grå baggrund for kontrast */
-  }
-  
-  /* Container styling */
-  #app {
-    width: 100%;
-    max-width: 800px;
-    padding: 10px;
-    box-sizing: border-box;
-    text-align: center;
-    background-color: white; /* Hvid baggrund for læsbarhed */
-    border-radius: 8px; /* Runde hjørner for et moderne look */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Blød skygge for dybde */
-  }
-  
-  /* Medieforespørgsel for skærme op til 480px i højde */
-  @media (max-height: 480px) {
-    #app {
-      padding: 5px;
-    }
-  
-    h2 {
-      font-size: 1.2em;
-    }
-  
-    button {
-      font-size: 0.9em;
-      padding: 8px;
-    }
-  }
-  
-  /* Medieforespørgsel for skærme op til 800px i bredde */
-  @media (max-width: 800px) {
-    #app {
-      padding: 5px;
-    }
-  
-    h2 {
-      font-size: 1.2em;
-    }
-  
-    button {
-      font-size: 0.9em;
-      padding: 8px;
-    }
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Gør body til fuld viewport højde */
+  background-color: #f0f0f0; /* Lys grå baggrund for kontrast */
+}
 
-  .bar-container {
-    width: 100%;
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
+/* Container styling */
+#app {
+  display: flex;
+  flex-direction: column; /* Organiserer indholdet vertikalt */
+  justify-content: space-between; /* Spreder indholdet, så der er maksimalt mellemrum mellem indhold og knapper */
+  width: 100%;
+  max-width: 800px; /* Maksimal bredde på containeren */
+  height: 100%; /* Sætter højden så den fylder viewport */
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: white; /* Hvid baggrund for læsbarhed */
+  border-radius: 8px; /* Runde hjørner for et moderne look */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Blød skygge for dybde */
+}
+
+.content {
+  flex: 1; /* Giver indholdsdel plads til at udvide */
+  overflow: auto; /* Sørger for scrolling hvis indholdet overstiger containerens højde */
+}
+
+.bar-container {
+  width: 100%;
+  height: 300px; /* Definér en fast højde for containeren */
+  display: flex;
+  flex-direction: row; /* Sørg for søjlerne er arrangeret horisontalt */
+  align-items: flex-end; /* Align bjælkerne i bunden af containeren */
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  padding: 10px 0; /* Tilføj lidt padding for at undgå, at søjlerne rører kanten */
 }
 
 .bar {
-    background-color: #007bff;
-    color: white;
-    text-align: right;
-    padding-right: 10px; /* Til teksten indeni baren */
-    height: 30px; /* Højden på søjlen */
-    line-height: 30px; /* Centrerer teksten vertikalt */
+  flex: 1; /* Giver hver bjælke mulighed for at udvide sig og fylde tilgængelig plads */
+  margin: 0 2%; /* Lille mellemrum mellem bjælkerne */
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: center; /* Centrer tekst horisontalt (flexbox) */
+  align-items: flex-end; /* Placerer tekst i bunden af bjælken */
+  transition: height 0.3s ease; /* Glat overgang for højdeændringer */
 }
-  
-  /* Yderligere styling for knapper */
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: #007BFF; /* Blå baggrund */
-    color: white; /* Hvid tekst */
-    border: none; /* Ingen kant */
-    border-radius: 5px; /* Runde hjørner */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Let skygge */
-    transition: background-color 0.3s ease; /* Blød overgang for baggrundsfarve */
-  }
-  
-  button:hover {
-    background-color: #0056b3; /* Mørkere blå ved hover */
-  }
-  
+
+.bar span {
+  margin-bottom: 5px; /* Afstand fra bunden af bjælken */
+}
+
+.submit-buttons {
+  position: fixed !important; /* Gør knapperne faste på skærmen */
+  bottom: 0 !important; /* Placerer knapperne i bunden */
+  width: 100% !important; /* Gør knapperne så brede som skærmen */
+  display: flex !important; /* Gør det muligt at anvende flexbox layout */
+  justify-content: center !important; /* Centrerer knapperne horisontalt */
+  padding: 10px !important; /* Tilføjer lidt plads omkring knapperne */
+}
+
+.button-container {
+  text-align: center; /* Centrerer knapperne horisontalt */
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #007BFF; /* Blå baggrund */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  border-radius: 5px; /* Runde hjørner */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Let skygge */
+  transition: background-color 0.3s ease; /* Blød overgang for baggrundsfarve */
+}
+
+button:hover {
+  background-color: #0056b3; /* Mørkere blå ved hover */
+}
