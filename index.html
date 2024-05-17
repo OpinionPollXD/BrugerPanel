@@ -20,7 +20,7 @@
       :style="{ width: timerWidth + '%' }"></div>
 
     <!-- Language Selection -->
-    <div v-if="selectedLanguage === null">
+    <div v-if="selectedLanguage === null" class="language-selection">
       <h2>Vælg sprog</h2>
       <div class="submit-buttons button-container">
         <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
@@ -31,7 +31,7 @@
 
     <!-- Questions View -->
     <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'" class="question-container">
-      <h2 class="question-title">Spørgsmål</h2>
+      <h2 class="question-title">{{ translatedTexts.questionTitle }}</h2>
       <h3 class="question-text">{{ currentQuestion.questionText }}</h3>
       <p class="countdown"> {{ remainingTime }} </p>
       <div class="submit-buttons button-container">
@@ -43,7 +43,7 @@
 
     <!-- Statistics View -->
     <div v-if="selectedLanguage !== null && viewState === 'statistics'">
-      <h2>Statistik for spørgsmål</h2>
+      <h2>{{ translatedTexts.statsTitle }}</h2>
       <div class="bar-container">
         <div class="bar" v-bind:class="'bar-' + index"
           v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index"
@@ -53,7 +53,7 @@
 
       </div>
       <div class="submit-buttons button-container">
-        <button @click="loadNextQuestion()">Næste spørgsmål</button>
+        <button @click="loadNextQuestion()">{{ translatedTexts.nextButton }}</button>
       </div>
     </div>
 

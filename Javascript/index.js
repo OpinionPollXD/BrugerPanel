@@ -1,4 +1,7 @@
 const baseURL = "https://restopinionpoll.azurewebsites.net/api/Questions";
+const translateURL = "https://api.cognitive.microsofttranslator.com/translate";
+const apiKey = "f324a4c180e34f6b9aa306b7b8755d1c";
+const region = "GLOBAL";
 
 new Vue({
   el: "#app",
@@ -12,12 +15,26 @@ new Vue({
     stats: [],
     timer: null,
     remainingTime: 20, //20 sekunders timer
+    translatedTexts: {
+      questionTitle: "Spørgsmål",
+      statsTitle: "Statistik for spørgsmål",
+      nextButton: "Næste spørgsmål",
+    },
   },
   methods: {
     setLanguage(languageIndex) {
-      // Simulere valg af sprog, men gem kun indeks
       this.selectedLanguage = languageIndex;
       this.fetchQuestions();
+      if (languageIndex !== 0) {
+        // Tjek om det valgte sprog ikke er Dansk
+        this.translateStaticTexts();
+      } else {
+        this.translatedTexts = {
+          questionTitle: "Spørgsmål",
+          statsTitle: "Statistik for spørgsmål",
+          nextButton: "Næste spørgsmål",
+        };
+      }
     },
 
     startTimer() {
@@ -63,11 +80,91 @@ new Vue({
         .get(`${baseURL}/GetActiveQuestions`)
         .then((response) => {
           this.questions = response.data;
-          this.getRandomQuestion();
+          if (this.selectedLanguage !== 0) {
+            this.translateQuestions();
+          } else {
+            this.getRandomQuestion();
+          }
         })
         .catch((error) => {
           console.error("Error fetching questions:", error);
         });
+    },
+
+    translateQuestions() {
+      const targetLanguage = this.selectedLanguage === 1 ? "en" : "fr";
+      const translationPromises = this.questions.map((question) => {
+        return Promise.all([
+          this.translateText(question.questionText, targetLanguage),
+          this.translateText(question.option1, targetLanguage),
+          this.translateText(question.option2, targetLanguage),
+          this.translateText(question.option3, targetLanguage),
+        ]).then((translations) => {
+          question.questionText = translations[0];
+          question.option1 = translations[1];
+          question.option2 = translations[2];
+          question.option3 = translations[3];
+        });
+      });
+
+      Promise.all(translationPromises).then(() => {
+        this.getRandomQuestion();
+      });
+    },
+
+    translateStaticTexts() {
+      const targetLanguage = this.selectedLanguage === 1 ? "en" : "fr";
+      const staticTextKeys = Object.keys(this.translatedTexts);
+      const translationPromises = staticTextKeys.map((key) => {
+        return this.translateText(
+          this.translatedTexts[key],
+          targetLanguage
+        ).then((translatedText) => {
+          this.translatedTexts[key] = translatedText;
+        });
+      });
+
+      Promise.all(translationPromises);
+    },
+
+    translateText(text, targetLanguage) {
+      return axios({
+        method: "post",
+        url: translateURL,
+        headers: {
+          "Ocp-Apim-Subscription-Key": apiKey,
+          "Ocp-Apim-Subscription-Region": region, // Erstat med din region
+          "Content-type": "application/json",
+        },
+        params: {
+          "api-version": "3.0", // Sikrer at API-versionen er specificeret korrekt
+          to: targetLanguage, // Målsprog
+        },
+        data: JSON.stringify([{ Text: text }]),
+      })
+        .then((response) => {
+          return response.data[0].translations[0].text;
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.error("Error status", error.response.status);
+            console.error("Error data", error.response.data);
+          } else {
+            console.error("Error message", error.message);
+          }
+          return text; // Return original text if translation fails
+        });
+    },
+
+    getRandomQuestion() {
+      if (this.questions.length > 0) {
+        const randomIndex = Math.floor(Math.random() * this.questions.length);
+        this.currentQuestion = this.questions[randomIndex];
+        this.startTimer();
+      } else {
+        console.error("ingen spørgsmål fundet");
+        this.currentQuestion = null;
+      }
     },
 
     getPercentage(optionNumber) {
@@ -87,17 +184,6 @@ new Vue({
     getBarColor(index) {
       const colors = ["#4CAF50", "#2196F3", "#FFC107"]; // Eksempel på farver: Grøn, Blå, Gul
       return colors[index % colors.length];
-    },
-
-    getRandomQuestion() {
-      if (this.questions.length > 0) {
-        const randomIndex = Math.floor(Math.random() * this.questions.length);
-        this.currentQuestion = this.questions[randomIndex];
-        this.startTimer();
-      } else {
-        console.error("ingen spørgsmål fundet");
-        this.currentQuestion = null;
-      }
     },
 
     submitAnswer(option) {
