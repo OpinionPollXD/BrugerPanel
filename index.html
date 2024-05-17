@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,38 +11,55 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 <body>
-    <div id="app">
-        <!-- Language Selection -->
-        <div v-if="selectedLanguage === null">
-            <h2>Vælg sprog</h2>
-            <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
-              {{ language }}
-            </button>
-          </div>
-    
-        <!-- Questions View -->
-        <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'">
-          <h2>Spørgsmål</h2>
-          <h3>{{ currentQuestion.questionText }}</h3>
-          <p>Tid tilbage: {{ remainingTime }} sekunder</p>
-          <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
-          <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
-          <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
+  <div id="app">
+
+    <!-- Timer Loadbar -->
+    <div class="timer-bar" v-if="selectedLanguage !== null && viewState === 'question'"
+      :style="{ width: timerWidth + '%' }"></div>
+
+    <!-- Language Selection -->
+    <div v-if="selectedLanguage === null">
+      <h2>Vælg sprog</h2>
+      <div class="submit-buttons button-container">
+        <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
+          {{ language }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Questions View -->
+    <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'" class="question-container">
+      <h2 class="question-title">Spørgsmål</h2>
+      <h3 class="question-text">{{ currentQuestion.questionText }}</h3>
+      <p class="countdown"> {{ remainingTime }} </p>
+      <div class="submit-buttons button-container">
+        <button @click="submitAnswer(1)">{{ currentQuestion.option1 }}</button>
+        <button @click="submitAnswer(2)">{{ currentQuestion.option2 }}</button>
+        <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
+      </div>
+    </div>
+
+    <!-- Statistics View -->
+    <div v-if="selectedLanguage !== null && viewState === 'statistics'">
+      <h2>Statistik for spørgsmål</h2>
+      <div class="bar-container">
+        <div class="bar" v-bind:class="'bar-' + index"
+          v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index"
+          :style="{ height: getPercentage(index + 1) + '%' }">
+          {{ option }}: {{ getPercentage(index + 1) }}%
         </div>
 
-        <!-- Statistics View -->
-        <div v-if="selectedLanguage !== null && viewState === 'statistics'">
-          <h2>Statistik for spørgsmål</h2>
-          <div class="bar-container">
-            <div class="bar" v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index" :style="{ width: getPercentage(index + 1) + '%' }">
-              {{ option }}: {{ getPercentage(index + 1) }}%
-            </div>
-        </div>
+      </div>
+      <div class="submit-buttons button-container">
         <button @click="loadNextQuestion()">Næste spørgsmål</button>
       </div>
+    </div>
 
-      </div>
+
+  </div>
   <script src="/Javascript/index.js"></script>
 </body>
+
 </html>

@@ -7,7 +7,7 @@ new Vue({
     languageOptions: ["Dansk", "English", "Français"],
     questions: [],
     currentQuestion: null,
-    viewState: 'question', // Kan være 'question' eller 'statistics'
+    viewState: "question", // Kan være 'question' eller 'statistics'
     answered: false,
     stats: [],
     timer: null,
@@ -22,39 +22,41 @@ new Vue({
 
     startTimer() {
       this.remainingTime = 20; // Reset timer til 20 sekunder
+      this.timerWidth = 100; // Reset loadbaren til fuld bredde
 
       // Clear timer hvis den allerede kører
       if (this.timer) {
-          clearTimeout(this.timer);
+        clearTimeout(this.timer);
       }
       // Update timer hvert sekund
       this.timer = setInterval(() => {
-          if (this.remainingTime > 0) {
-              this.remainingTime -= 1;
-          } else {
-              this.timeIsUp();
-          }
+        if (this.remainingTime > 0) {
+          this.remainingTime -= 1;
+          this.timerWidth = (this.remainingTime / 20) * 100; // Opdaterer loadbar baseret på den tilbageværende tid
+        } else {
+          this.timeIsUp();
+        }
       }, 1000);
-  },
+    },
 
-  timeIsUp() {
+    timeIsUp() {
       console.log("Time is up! Moving to next question.");
       clearInterval(this.timer); // Stop the timer
       this.getRandomQuestion(); // Henter nyt spørgsmål
-  },
+    },
 
-  loadNextQuestion() {
-    // Tjek om der er flere spørgsmål tilgængelige
-    if (this.questions.length > 0) {
-      // Hent og vis det næste spørgsmål
-      this.getRandomQuestion();
-      this.viewState = 'question'; // Skift tilbage til spørgsmålsvisningen
-      this.startTimer(); // Genstart timeren for det nye spørgsmål
-    } else {
-      console.log("Ingen flere spørgsmål tilgængelige.");
-      // Her kan du implementere logik for hvad der sker, når der ikke er flere spørgsmål
-    }
-  },
+    loadNextQuestion() {
+      // Tjek om der er flere spørgsmål tilgængelige
+      if (this.questions.length > 0) {
+        // Hent og vis det næste spørgsmål
+        this.getRandomQuestion();
+        this.viewState = "question"; // Skift tilbage til spørgsmålsvisningen
+        this.startTimer(); // Genstart timeren for det nye spørgsmål
+      } else {
+        console.log("Ingen flere spørgsmål tilgængelige.");
+        // Her kan du implementere logik for hvad der sker, når der ikke er flere spørgsmål
+      }
+    },
 
     fetchQuestions() {
       axios
@@ -69,11 +71,22 @@ new Vue({
     },
 
     getPercentage(optionNumber) {
-      const total = this.currentQuestion.option1Count + this.currentQuestion.option2Count + this.currentQuestion.option3Count;
+      const total =
+        this.currentQuestion.option1Count +
+        this.currentQuestion.option2Count +
+        this.currentQuestion.option3Count;
       if (total === 0) return 0; // Undgå division med nul
-      if (optionNumber === 1) return ((this.currentQuestion.option1Count / total) * 100).toFixed(2);
-      if (optionNumber === 2) return ((this.currentQuestion.option2Count / total) * 100).toFixed(2);
-      if (optionNumber === 3) return ((this.currentQuestion.option3Count / total) * 100).toFixed(2);
+      if (optionNumber === 1)
+        return ((this.currentQuestion.option1Count / total) * 100).toFixed(2);
+      if (optionNumber === 2)
+        return ((this.currentQuestion.option2Count / total) * 100).toFixed(2);
+      if (optionNumber === 3)
+        return ((this.currentQuestion.option3Count / total) * 100).toFixed(2);
+    },
+
+    getBarColor(index) {
+      const colors = ["#4CAF50", "#2196F3", "#FFC107"]; // Eksempel på farver: Grøn, Blå, Gul
+      return colors[index % colors.length];
     },
 
     getRandomQuestion() {
@@ -110,14 +123,13 @@ new Vue({
           this.currentQuestion.option1Count = response.data.option1Count;
           this.currentQuestion.option2Count = response.data.option2Count;
           this.currentQuestion.option3Count = response.data.option3Count;
-          this.viewState = 'statistics'; // Skift visning til statistik
+          this.viewState = "statistics"; // Skift visning til statistik
           console.log("ViewState changed to:", this.viewState);
         })
         .catch((error) => {
           console.error("Error submitting the answer:", error);
         });
     },
-    
   },
   watch: {
     selectedLanguage: function () {
