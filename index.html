@@ -5,32 +5,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bruger Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/CSS/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
   <div id="app">
 
+    <!-- Progress indicator -->
+    <div class="progress-indicator">
+      {{ questionCount }} / 10
+    </div>
+
     <!-- Timer Loadbar -->
     <div class="timer-bar" v-if="selectedLanguage !== null && viewState === 'question'"
-      :style="{ width: timerWidth + '%' }"></div>
+      :style="{ width: timerWidth + '%' }">
+    </div>
 
-    <!-- Language Selection -->
-    <div v-if="selectedLanguage === null" class="language-selection">
-      <h2>Vælg sprog</h2>
+    <!-- Language Selection view -->
+    <transition name="fade" mode="out-in">
+    <div v-if="selectedLanguage === null" key="language-selection" class="language-selection">
+      <h2 class="language-title">Vælg sprog</h2>
       <div class="submit-buttons button-container">
         <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
           {{ language }}
         </button>
       </div>
     </div>
+    </transition>
 
     <!-- Questions View -->
-    <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'" class="question-container">
+    <transition name="fade" mode="out-in">
+    <div v-if="selectedLanguage !== null && currentQuestion && viewState ==='question'" key="questions-view" class="question-container">
       <h2 class="question-title">{{ translatedTexts.questionTitle }}</h2>
       <h3 class="question-text">{{ currentQuestion.questionText }}</h3>
       <p class="countdown"> {{ remainingTime }} </p>
@@ -40,22 +49,24 @@
         <button @click="submitAnswer(3)">{{ currentQuestion.option3 }}</button>
       </div>
     </div>
+    </transition>
 
     <!-- Statistics View -->
-    <div v-if="selectedLanguage !== null && viewState === 'statistics'">
-      <h2>{{ translatedTexts.statsTitle }}</h2>
+    <transition name="fade" mode="out-in">
+    <div v-if="selectedLanguage !== null && viewState === 'statistics'" key="statistics-view">
+      <h2 class="statistic-title">{{ translatedTexts.statsTitle }}</h2>
       <div class="bar-container">
         <div class="bar" v-bind:class="'bar-' + index"
           v-for="(option, index) in [currentQuestion.option1, currentQuestion.option2, currentQuestion.option3]" :key="index"
           :style="{ height: getPercentage(index + 1) + '%' }">
           {{ option }}: {{ getPercentage(index + 1) }}%
         </div>
-
       </div>
       <div class="submit-buttons button-container">
         <button @click="loadNextQuestion()">{{ translatedTexts.nextButton }}</button>
       </div>
     </div>
+    </transition>
 
 
   </div>

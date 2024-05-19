@@ -5,10 +5,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  /* Gør body til fuld viewport højde */
-  background-color: #f0f0f0;
-  /* Lys grå baggrund for kontrast */
+  height: 100vh; /* Gør body til fuld viewport højde */
+  background-image: url("/images/background.png");
+}
+
+body, button, input, textarea {
+  font-family: 'Roboto', sans-serif; /* Grundlæggende skrifttype for hele siden */
+  font-size: 16px; /* Standard tekststørrelse */
+  color: #333; /* En mørkere grå for bedre læsbarhed */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif; /* Skrifttype for overskrifter */
+  font-weight: 700; /* Gør overskrifterne federe */
 }
 
 /* Container styling */
@@ -23,9 +32,15 @@ body {
   padding: 0px;
   box-sizing: border-box;
   text-align: center;
-  background-color: white; /* Hvid baggrund for læsbarhed */
   border-radius: 8px; /* Runde hjørner for et moderne look */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Blød skygge for dybde */
+}
+
+#app>* {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 
@@ -38,6 +53,15 @@ body {
   transition: width 1s linear; /* Glat transition for ændring af bredden */
 }
 
+.progress-indicator {
+  position: absolute !important; /* Gør indikatoren fast på skærmen */
+  top: 35px !important; /* Juster afstanden fra toppen */
+  left: 20px !important; /* Juster afstanden fra venstre */
+  width: 200px !important; /* Start bredde */
+  font-size: 2.0em; /* Skriftstørrelse */
+  color: #333; /* Farve på tekst */
+  font-weight: bold; /* Fed skrift */ 
+}
 .language-selection {
   display: flex;
   flex-direction: column;
@@ -57,13 +81,18 @@ body {
   position: relative;
 }
 
-.question-title {
+.question-title, .statistic-title, .language-title {
   position: absolute;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 3em; /* Øg skrifttypestørrelsen for h2 */
-  font-weight: bold; /* Gør teksten fed */
+  font-size: 3em; /* Øg skriftstørrelsen */
+  font-weight: 700; /* Gør teksten fed */
+}
+
+.language-title {
+  top: 150px;
+  text-shadow: #333;
 }
 
 .question-text {
@@ -98,13 +127,12 @@ body {
   display: flex;
   flex-direction: row; /* Sørg for søjlerne er arrangeret horisontalt */
   align-items: flex-end; /* Align bjælkerne i bunden af containeren */
-  background-color: #f8f9fa;
   padding: 10px 0; /* Tilføj lidt padding for at undgå, at søjlerne rører kanten */
 }
 
 .bar {
   flex: 1; /* Giver hver bjælke mulighed for at udvide sig og fylde tilgængelig plads */
-  margin: 0 2%; /* Lille mellemrum mellem bjælkerne */
+  margin: 0 1%; /* Lille mellemrum mellem bjælkerne */
   background-color: #007bff;
   color: white;
   display: flex; /* Gør det muligt at anvende flexbox layout */
@@ -114,7 +142,7 @@ body {
 }
 
 .bar span {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .bar-0 {
@@ -139,31 +167,29 @@ body {
   padding: 0; /* Fjern padding for at placere dem helt i bunden */
   margin: 0; /* Fjern margin for at placere dem helt i bunden */
   box-sizing: border-box; /* Sørg for padding og border er inkluderet i bredden */
-  background-color: #f0f0f0; /* Baggrundsfarve hvis ønsket */
+  
 }
 
 .submit-buttons button {
   width: 160px; /* Øget bredde på knapperne */
   height: 80px; /* Halvdelen af bredden for at skabe en halvcirkel */
   border-radius: 100px 100px 0 0; /* Gør toppen af knappen rund */
-  background: linear-gradient(145deg, #007BFF, #0056b3); /* Tilføj en gradient */
   color: white;
-  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Forbedret skygge for en 3D-effekt */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Tilføj transition for glat animation */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; /* Blødere overgange for interaktive effekter */
   cursor: pointer;
   margin-bottom: 0;
-  padding: 0;
-  font-size: 1.0em; /* Større skrift for bedre læsbarhed */
+  padding-top: 30px;
+  font-size: 1.5em; /* Større skrift for bedre læsbarhed */
 }
 
 
-.submit-buttons button:hover {
+/* .submit-buttons button:hover {
   background: linear-gradient(145deg, #0056b3, #003f7f); /* Mørkere gradient ved hover */
-}
+
 
 .submit-buttons button:active {
   background: linear-gradient(145deg, #003f7f, #0056b3); /* Ændret gradient ved klik */
@@ -179,28 +205,30 @@ button {
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  background-color: #007BFF;
-  /* Blå baggrund */
-  color: white;
-  /* Hvid tekst */
-  border: none;
-  /* Ingen kant */
-  border-radius: 5px;
-  /* Runde hjørner */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  /* Let skygge */
-  transition: background-color 0.3s ease;
-  /* Blød overgang for baggrundsfarve */
+  /* background-color: #007BFF; */
+  background-color: rgba(14, 0, 96, 0.698);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6); /* Blå baggrund */
+  color: white; /* Hvid tekst */
+  border-radius: 5px; /* Runde hjørner */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Let skygge */
+  transition: background-color 0.3s ease; /* Blød overgang for baggrundsfarve */
 }
 
-button:hover {
-  background-color: #0056b3;
-  /* Mørkere blå ved hover */
+/* Transition styles for fading views in and out */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0;
 }
 
 @media (max-width: 800px) {
   .timer-bar {
-    height: 15px; /* Muligvis gøre loadbaren tyndere på små skærme */
+    height: 15px;
 
   }
 

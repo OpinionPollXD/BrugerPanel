@@ -17,9 +17,10 @@ new Vue({
     remainingTime: 20, //20 sekunders timer
     translatedTexts: {
       questionTitle: "Spørgsmål",
-      statsTitle: "Statistik for spørgsmål",
-      nextButton: "Næste spørgsmål",
+      statsTitle: "Statistik",
+      nextButton: "Næste",
     },
+    questionCount: 0,
   },
   methods: {
     setLanguage(languageIndex) {
@@ -31,8 +32,8 @@ new Vue({
       } else {
         this.translatedTexts = {
           questionTitle: "Spørgsmål",
-          statsTitle: "Statistik for spørgsmål",
-          nextButton: "Næste spørgsmål",
+          statsTitle: "Statistik",
+          nextButton: "Næste",
         };
       }
     },
@@ -113,8 +114,8 @@ new Vue({
     },
 
     translateStaticTexts() {
-      const targetLanguage = this.selectedLanguage === 1 ? "en" : "fr";
-      const staticTextKeys = Object.keys(this.translatedTexts);
+      const targetLanguage = this.selectedLanguage === 1 ? "en" : "fr"; // Bestem målsproget baseret på brugerens valg
+      const staticTextKeys = Object.keys(this.translatedTexts); // Hent alle nøglerne fra translatedTexts
       const translationPromises = staticTextKeys.map((key) => {
         return this.translateText(
           this.translatedTexts[key],
@@ -124,7 +125,7 @@ new Vue({
         });
       });
 
-      Promise.all(translationPromises);
+      Promise.all(translationPromises); // Vent på at alle oversættelser er færdige
     },
 
     translateText(text, targetLanguage) {
@@ -133,17 +134,17 @@ new Vue({
         url: translateURL,
         headers: {
           "Ocp-Apim-Subscription-Key": apiKey,
-          "Ocp-Apim-Subscription-Region": region, // Erstat med din region
+          "Ocp-Apim-Subscription-Region": region,
           "Content-type": "application/json",
         },
         params: {
           "api-version": "3.0", // Sikrer at API-versionen er specificeret korrekt
           to: targetLanguage, // Målsprog
         },
-        data: JSON.stringify([{ Text: text }]),
+        data: JSON.stringify([{ Text: text }]), // Teksten der skal oversættes
       })
         .then((response) => {
-          return response.data[0].translations[0].text;
+          return response.data[0].translations[0].text; // Return oversat tekst
         })
         .catch((error) => {
           if (error.response) {
@@ -205,21 +206,49 @@ new Vue({
         )
         .then((response) => {
           console.log("Answer submitted successfully:", response.data);
-          //<this.getRandomQuestion();
           this.currentQuestion.option1Count = response.data.option1Count;
           this.currentQuestion.option2Count = response.data.option2Count;
           this.currentQuestion.option3Count = response.data.option3Count;
           this.viewState = "statistics"; // Skift visning til statistik
           console.log("ViewState changed to:", this.viewState);
+          this.questionCount += 1; // Øg spørgsmålstælleren
+          if (this.questionCount >= 10) {
+            this.resetToLanguageSelection();
+          }
         })
         .catch((error) => {
           console.error("Error submitting the answer:", error);
         });
+    },
+
+    resetToLanguageSelection() {
+      this.selectedLanguage = null; // Nulstil valgte sprog til starttilstand
+      this.questionCount = 0; // Nulstil tælleren for spørgsmål
+      this.resetInactivityTimer(); // Genstart inaktivitetstimer
+    },
+    resetInactivityTimer() {
+      clearTimeout(this.inactivityTimer);
+      this.inactivityTimer = setTimeout(() => {
+        this.resetToLanguageSelection(); // flyt brugeren til sprogvalg
+      }, 60000); // 1 minut uden aktivitet
     },
   },
   watch: {
     selectedLanguage: function () {
       this.getRandomQuestion();
     },
+  },
+
+  mounted() {
+    this.resetInactivityTimer();
+    ["click", "touchstart", "keydown"].forEach((event) => {
+      window.addEventListener(event, this.resetInactivityTimer);
+    });
+  },
+  beforeDestroy() {
+    clearTimeout(this.inactivityTimer);
+    ["click", "touchstart", "keydown"].forEach((event) => {
+      window.removeEventListener(event, this.resetInactivityTimer);
+    });
   },
 });
