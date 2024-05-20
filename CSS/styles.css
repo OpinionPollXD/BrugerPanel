@@ -186,18 +186,12 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.5em; /* Større skrift for bedre læsbarhed */
 }
 
-
-/* .submit-buttons button:hover {
-  background: linear-gradient(145deg, #0056b3, #003f7f); /* Mørkere gradient ved hover */
-
-
 .submit-buttons button:active {
   background: linear-gradient(145deg, #003f7f, #0056b3); /* Ændret gradient ved klik */
 }
 
 .button-container {
   text-align: center;
-  /* Centrerer knapperne horisontalt */
 }
 
 button {
@@ -205,7 +199,6 @@ button {
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  /* background-color: #007BFF; */
   background-color: rgba(14, 0, 96, 0.698);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -216,14 +209,28 @@ button {
   transition: background-color 0.3s ease; /* Blød overgang for baggrundsfarve */
 }
 
-/* Transition styles for fading views in and out */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */
+.fade-enter, .fade-leave-to 
   {
   opacity: 0;
+}
+
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.thank-you-title {
+  font-size: 3em;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 800px) {

@@ -68,6 +68,15 @@
     </div>
     </transition>
 
+    <!-- Thank you View -->
+    <transition name="fade" mode="out-in">
+      <div v-if="viewState === 'thankYou'" key="thank-you-view" class="thank-you-container">
+        <h2 class="thank-you-title">{{translatedTexts.thankYouTitle}}</h2>
+        <div class="submit-buttons button-container">
+          <button @click="restart()">{{ translatedTexts.restartButton}}</button>
+        </div>
+      </div>
+    </transition>
 
   </div>
   <script src="/Javascript/index.js"></script>
