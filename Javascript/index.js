@@ -7,14 +7,18 @@ new Vue({
   el: "#app",
   data: {
     selectedLanguage: null,
-    languageOptions: ["Dansk", "English", "Français"],
+    languageOptions: [
+      { name: "Dansk", flag: "../images/denmark.png" },
+      { name: "English", flag: "../images/uk.png" },
+      { name: "Français", flag: "../images/france.png" },
+    ],
     questions: [],
     currentQuestion: null,
-    viewState: "null", // Kan være 'question' eller 'statistics'
+    viewState: "start",
     answered: false,
     stats: [],
     timer: null,
-    remainingTime: 20, //20 sekunders timer
+    remainingTime: 30, //30 sekunders timer
     translatedTexts: {
       questionTitle: "Spørgsmål",
       statsTitle: "Statistik",
@@ -25,6 +29,10 @@ new Vue({
     questionCount: 0,
   },
   methods: {
+    startSurvey() {
+      this.viewState = "languageSelection"; // Skifter til sprogvalgsvisning
+    },
+
     setLanguage(languageIndex) {
       this.selectedLanguage = languageIndex; // Opdater valgte sprog
       this.fetchQuestions(); // Hent spørgsmål fra API
@@ -45,7 +53,7 @@ new Vue({
     },
 
     startTimer() {
-      this.remainingTime = 20; // Reset timer til 20 sekunder
+      this.remainingTime = 30; // Reset timer til 20 sekunder
       this.timerWidth = 100; // Reset loadbaren til fuld bredde
       if (this.timer) {
         // Hvis der allerede er en timer, stop den
@@ -55,7 +63,7 @@ new Vue({
         // Start en ny timer
         if (this.remainingTime > 0) {
           this.remainingTime -= 1; // Tæl ned
-          this.timerWidth = (this.remainingTime / 20) * 100; // Opdaterer loadbar baseret på den tilbageværende tid
+          this.timerWidth = (this.remainingTime / 30) * 100; // Opdaterer loadbar baseret på den tilbageværende tid
         } else {
           this.timeIsUp(); // Hvis tiden er gået, kald funktionen timeIsUp
         }

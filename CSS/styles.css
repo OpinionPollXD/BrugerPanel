@@ -46,11 +46,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .timer-bar {
   position: absolute;
-  height: 50px; /* Højden af loadbaren */
-  background-color: #ff0000; /* Rød farve for synlighed */
+  height: 20px; /* Højden af loadbaren */
+  background-color: #003f7feb; 
   width: 100%; /* Start bredde */
   margin-bottom: 0;
   transition: width 1s linear; /* Glat transition for ændring af bredden */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Tilføj skygge */
 }
 
 .progress-indicator {
@@ -61,7 +62,38 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2.0em; /* Skriftstørrelse */
   color: #333; /* Farve på tekst */
   font-weight: bold; /* Fed skrift */ 
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
+
+.start-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.start-title {
+  font-size: 2.8em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.flag-icon {
+  width: 25px; /* Juster størrelsen efter behov */
+  height: auto;
+  vertical-align: middle;/* Sikrer at flagene er centralt justeret med teksten */
+  margin-right: 5px; /* Tilføjer lidt margin til højre for flaget */
+  margin-left: 5px; /* Tilføjer lidt margin til venstre for flaget */
+}
+
+.flag-button {
+  width: 70px;
+  height: 50px;
+  vertical-align: middle;
+}
+
 .language-selection {
   display: flex;
   flex-direction: column;
@@ -81,23 +113,47 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
-.question-title, .statistic-title, .language-title {
+.question-title, .statistic-title{
   position: absolute;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 3em; /* Øg skriftstørrelsen */
   font-weight: 700; /* Gør teksten fed */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
 .language-title {
-  top: 150px;
+  left: 50%;
+  font-size: 3.5em; /* Øg skriftstørrelsen */
+  font-weight: 700; /* Gør teksten fed */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
+}
+
+.language-text {
+  font-size: 1.5em; /* Øg skrifttypestørrelsen for h3 */
+  font-weight: bold; /* Gør teksten fed */
   text-shadow: #333;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 57%;
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
+}
+
+.start-text {
+  font-size: 1.2em; /* Øg skrifttypestørrelsen for h3 */
+  font-weight: bold; /* Gør teksten fed */
+  text-shadow: #333;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 57%;
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
 .question-text {
   font-size: 1.5em; /* Øg skrifttypestørrelsen for h3 */
   font-weight: bold; /* Gør teksten fed */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
 .countdown {
@@ -107,6 +163,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 2.0em;
   color: #333;
   font-weight: bold;
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
 .question-container h3 {
@@ -128,6 +185,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: row; /* Sørg for søjlerne er arrangeret horisontalt */
   align-items: flex-end; /* Align bjælkerne i bunden af containeren */
   padding: 10px 0; /* Tilføj lidt padding for at undgå, at søjlerne rører kanten */
+  border-radius: 20px; /* Runde hjørner i toppen */
 }
 
 .bar {
@@ -139,6 +197,10 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center; /* Centrer tekst horisontalt (flexbox) */
   align-items: flex-end; /* Placerer tekst i bunden af bjælken */
   transition: height 0.3s ease; /* Glat overgang for højdeændringer */
+  font-family: 'Lato', sans-serif; /* Skrifttype for tekst */
+  font-size: 1.3em; /* Skriftstørrelse */
+  font-weight: bold; /* Fed skrift */
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .bar span {
@@ -146,15 +208,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bar-0 {
-  background-color: #007bff;
+  background-color: #ff00f2;
+  border-radius: 8px; /* Runde hjørner i toppen */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Tilføj skygge */
 }
 
 .bar-1 {
-  background-color: #28a745;
+  background-color: #4d93de;
+  border-radius: 8px; /* Runde hjørner i toppen */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Tilføj skygge */
 }
 
 .bar-2 {
-  background-color: #dc3545;
+  background-color: #e28e28;
+  border-radius: 8px; /* Runde hjørner i toppen */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Tilføj skygge */
 }
 
 .submit-buttons {
@@ -183,7 +251,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   margin-bottom: 0;
   padding-top: 30px;
-  font-size: 1.5em; /* Større skrift for bedre læsbarhed */
+  font-size: 1.3em; /* Større skrift for bedre læsbarhed */
 }
 
 .submit-buttons button:active {
@@ -210,11 +278,10 @@ button {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.4s;
 }
 
-.fade-enter, .fade-leave-to 
-  {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
