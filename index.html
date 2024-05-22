@@ -20,18 +20,37 @@
       {{ questionCount }} / 10
     </div>
 
+    
     <!-- Timer Loadbar -->
     <div class="timer-bar" v-if="selectedLanguage !== null && viewState === 'question'"
       :style="{ width: timerWidth + '%' }">
     </div>
 
+    <!-- Start View -->
+    <transition name="fade" mode="out-in">
+      <div v-if="viewState === 'start'" key="start-view" class="start-container">
+        <h2 class="start-title">Velkommen til Brugerundersøgelse!</h2>
+        <h3 class="start-text">
+          <img src="/images/uk.png" alt="UK Flag" class="flag-icon" />
+          User Survey! /
+          <img src="/images/france.png" alt="France Flag" class="flag-icon" />
+          Enquête auprès des utilisateurs
+        </h3>
+
+        <div class="submit-buttons button-container">
+          <button @click="startSurvey()">Start!</button>
+        </div>
+      </div>
+    </transition>
+
     <!-- Language Selection view -->
     <transition name="fade" mode="out-in">
-    <div v-if="selectedLanguage === null" key="language-selection" class="language-selection">
+    <div v-if="viewState === 'languageSelection'" key="language-selection" class="language-selection">
       <h2 class="language-title">Vælg sprog</h2>
+      <h3 class="language-text">Choose language / Choisir la langue</h3>
       <div class="submit-buttons button-container">
         <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
-          {{ language }}
+          <img :src="language.flag" :alt="language.name + ' flag'" class="flag-button">
         </button>
       </div>
     </div>
@@ -62,6 +81,7 @@
           {{ option }}: {{ getPercentage(index + 1) }}%
         </div>
       </div>
+      <h3 class="question-text">{{ currentQuestion.questionText }}</h3>
       <div class="submit-buttons button-container">
         <button @click="loadNextQuestion()">{{ translatedTexts.nextButton }}</button>
       </div>
