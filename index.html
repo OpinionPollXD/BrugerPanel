@@ -38,7 +38,7 @@
         </h3>
 
         <div class="submit-buttons button-container">
-          <button @click="startSurvey()">Start!</button>
+          <button id="startKnap" @click="startSurvey()">Start!</button>
         </div>
       </div>
     </transition>
@@ -49,7 +49,7 @@
       <h2 class="language-title">Vælg sprog</h2>
       <h3 class="language-text">Choose language / Choisir la langue</h3>
       <div class="submit-buttons button-container">
-        <button v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
+        <button id="SelectLanguage" v-for="(language, index) in languageOptions" :key="index" @click="setLanguage(index)">
           <img :src="language.flag" :alt="language.name + ' flag'" class="flag-button">
         </button>
       </div>
