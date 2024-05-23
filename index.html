@@ -16,7 +16,7 @@
   <div id="app">
 
     <!-- Progress indicator -->
-    <div class="progress-indicator">
+    <div class="progress-indicator" v-if="viewState === 'question'">
       {{ questionCount }} / 10
     </div>
 
