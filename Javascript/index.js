@@ -244,7 +244,7 @@ new Vue({
       clearTimeout(this.inactivityTimer);
       this.inactivityTimer = setTimeout(() => {
         window.location.reload(); // Genindlæser siden for at starte forfra
-      }, 60000); // 1 minut uden aktivitet
+      }, 120000); // 2 minut uden aktivitet
     },
 
     restart() {
