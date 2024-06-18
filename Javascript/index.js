@@ -1,4 +1,4 @@
-const baseURL = "https://restopinionpoll.azurewebsites.net/api/Questions";
+const baseURL = "https://restopinionpoll12345678.azurewebsites.net/api/Questions";
 const translateURL = "https://api.cognitive.microsofttranslator.com/translate";
 const apiKey = "f324a4c180e34f6b9aa306b7b8755d1c";
 const region = "GLOBAL";
